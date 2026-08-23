@@ -18,6 +18,7 @@ namespace backend.Models
          public String  industry {get; set;}= string.Empty;
 
          public  long matketCap {get; set;}
+         public List<Comments> Comments { get; set; } = new List<Comments>();
 
 
 

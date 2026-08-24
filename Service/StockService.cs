@@ -61,7 +61,7 @@ namespace backend.Service
             if (stock==null)
             return null;
             UpdatedStock.id = id;
-            context.Stock.Update(UpdatedStock);
+            context.Entry(stock).CurrentValues.SetValues(UpdatedStock);
             await context.SaveChangesAsync();
              return UpdatedStock;
 

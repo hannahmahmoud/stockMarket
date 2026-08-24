@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    [Route("api/v1/stock")]
+    [Route("api/v1/stock")] 
     [ApiController]
     public class StockController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace backend.Controllers
         }
 
       
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> PutStock(
             int id,
             [FromBody] Stock updatedStock)

@@ -4,13 +4,15 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Service
-{
+{   
     public class StockService
     {
         private readonly ApplicationDbContext context;
-        public StockService(ApplicationDbContext context)
+        private int num;
+        public StockService(ApplicationDbContext context )
         {
             this.context=context;
+            //this.num = num; 
             
         }
 

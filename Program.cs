@@ -1,4 +1,5 @@
 using backend.Data;
+using backend.Endpoints;
 using backend.Service;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     
 });
 builder.Services.AddScoped<StockService>();
+builder.Services.AddScoped<CommentService>();
+
+
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -24,8 +29,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
-
-
+app.MapCommentEndpoints();
 app.Run();
 
 

@@ -1,11 +1,14 @@
 using backend.Models;
 using backend.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [Route("api/v1/stock")] 
     [ApiController]
+    
+
     public class StockController : ControllerBase
     {
         private readonly StockService stockService;

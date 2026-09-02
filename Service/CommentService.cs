@@ -1,80 +1,126 @@
 using backend.Data;
 using backend.Models;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.ObjectPool;
 
 namespace backend.Service
 {
     public class CommentService
     {
-        
         private readonly ApplicationDbContext dbContext;
 
-        public CommentService ( ApplicationDbContext dbContext )
+        public CommentService(ApplicationDbContext dbContext)
         {
-            this.dbContext=dbContext;
-            
+            this.dbContext = dbContext;
         }
-
 
         public async Task<List<Comments>?> getAllComments()
         {
-            var comments= await dbContext.Comments.ToListAsync();
-            if (comments.Count ==0)
-            return null;
-            return comments;
+            try
+            {
+                var comments = await dbContext.Comments.ToListAsync();
+
+                if (comments.Count == 0)
+                    return null;
+
+                return comments;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error getting all comments: " + ex.Message);
+                return null;
+            }
         }
 
-        public async Task<Comments?> getCommentById( int id )
+        public async Task<Comments?> getCommentById(int id)
         {
-            var comments = await dbContext.Comments.FindAsync(id);
-             if (comments ==null)
-             return null;
-             return comments;
+            try
+            {
+                var comment = await dbContext.Comments.FindAsync(id);
+
+                if (comment == null)
+                    return null;
+
+                return comment;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error getting comment: " + ex.Message);
+                return null;
+            }
         }
 
         public async Task<Comments?> createComment(Comments comment)
         {
-            var existingCommment= await dbContext.Comments.FirstOrDefaultAsync(c =>
-               c.title== comment.title && c.content== comment.content ); 
-            if (existingCommment!= null)
-            return null ;
-            var comments= await dbContext.Comments.AddAsync(comment);
-             dbContext.SaveChanges();
-             return comment;
+            try
+            {
+                var existingComment = await dbContext.Comments.FirstOrDefaultAsync(c =>
+                    c.title == comment.title &&
+                    c.content == comment.content);
 
+                if (existingComment != null)
+                    return null;
 
+                await dbContext.Comments.AddAsync(comment);
 
+                await dbContext.SaveChangesAsync();
+
+                return comment;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error creating comment: " + ex.Message);
+                return null;
+            }
         }
 
-
-        public async Task<Comments?>deleteComment (int id)
+        public async Task<Comments?> deleteComment(int id)
         {
-            var comment = await dbContext.Comments.FindAsync(id);
-             if (comment== null)
-             return null;
-              dbContext.Comments.Remove(comment);
-              dbContext.SaveChanges();
-              return comment; 
-            
+            try
+            {
+                var comment = await dbContext.Comments.FindAsync(id);
+
+                if (comment == null)
+                    return null;
+
+                dbContext.Comments.Remove(comment);
+
+                await dbContext.SaveChangesAsync();
+
+                return comment;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting comment: " + ex.Message);
+                return null;
+            }
         }
 
-        public  async Task<Comments?> updateComment (int id, Comments UpdatedComment)
+        public async Task<Comments?> updateComment(
+            int id,
+            Comments UpdatedComment)
         {
-            var comment =  await dbContext.Stock.FindAsync( id);
-            if (comment==null)
-            return null;
-            UpdatedComment.id = id;
-            dbContext.Entry(comment).CurrentValues.SetValues(UpdatedComment);
-            await dbContext.SaveChangesAsync();
-             return UpdatedComment;
+            try
+            {
+                var comment = await dbContext.Comments.FindAsync(id);
 
+                if (comment == null)
+                    return null;
 
+                UpdatedComment.id = id;
+
+                dbContext.Entry(comment)
+                    .CurrentValues
+                    .SetValues(UpdatedComment);
+
+                await dbContext.SaveChangesAsync();
+
+                return UpdatedComment;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating comment: " + ex.Message);
+                return null;
+            }
         }
-
-
-
-
     }
 }

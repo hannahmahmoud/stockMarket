@@ -19,7 +19,7 @@ namespace backend.Controllers
         }
 
       
-        [HttpPatch("{id}")]
+        [HttpPatch("{id:int}")]
         public async Task<IActionResult> PutStock(
             int id,
             [FromBody] Stock updatedStock)
@@ -63,7 +63,7 @@ namespace backend.Controllers
         }
 
       
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteStock(int id)
         {
             var stock = await stockService.deleteStock(id);
@@ -75,8 +75,9 @@ namespace backend.Controllers
         }
 
     
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetStockById(int id)
+
         {
             var stock = await stockService.getStockByID(id);
 
@@ -84,6 +85,23 @@ namespace backend.Controllers
                 return NotFound();
 
             return Ok(stock);
+        }
+
+
+        [HttpGet("search")]
+        public async Task<IActionResult> stockQuery( String? companyName ,  String ? symbol, 
+         decimal? purchase, decimal? lastDiv , String ? industry, long ? matketCap, int pageNumber=1, int pageSize=10)
+        {
+            var stock= await stockService.stockQuery(
+                companyName,symbol,purchase,lastDiv,industry,matketCap, pageNumber,pageSize
+            );
+
+            if (stock==null)
+            return NotFound();
+
+            return Ok(stock);
+
+
         }
     }
 }

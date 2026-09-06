@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.Endpoints;
+using backend.Repository;
 using backend.Service;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<StockService>();
 builder.Services.AddScoped<CommentService>();
 
-
+builder.Services.AddScoped<StockRepo>();
 
 builder.Services.AddControllers();
 

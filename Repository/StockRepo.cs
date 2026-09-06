@@ -53,6 +53,16 @@ namespace backend.Repository
                 return stock; 
         }
 
+        public async Task<Stock?> GetStockBySymbolAndCompanyName(
+            string symbol,
+            string companyName)
+        {
+             return await context.Stock
+            .FirstOrDefaultAsync(s =>
+            s.symbol == symbol &&
+            s.companyName == companyName);
+        }
+
 
         public async Task<List<Stock>> stockQuery(
     string? companyName,

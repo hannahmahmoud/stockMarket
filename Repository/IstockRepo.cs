@@ -14,6 +14,8 @@ namespace backend.Repository
 
          public  Task<Stock> updateStock(int id, Stock UpdatedStock, Stock oldStock);
 
+         Task<Stock?> GetStockBySymbolAndCompanyName(string symbol, string companyName);
+
 
          Task<List<Stock>> stockQuery(
             string? companyName,

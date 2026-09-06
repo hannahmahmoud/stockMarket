@@ -27,7 +27,11 @@ namespace backend.Controllers
             var stock = await stockService.updateStock(id, updatedStock);
 
             if (stock == null)
-                return NotFound();
+                return NotFound(new
+                {
+                    status= "Failed",
+                    message="stock does not exit "
+                });
 
             return Ok(stock);
         }
@@ -69,7 +73,11 @@ namespace backend.Controllers
             var stock = await stockService.deleteStock(id);
 
             if (stock == null)
-                return NotFound();
+                return NotFound(new
+                {
+                    status= "Failed",
+                    message="stock does not exit "
+                });
 
             return NoContent();
         }
@@ -82,7 +90,11 @@ namespace backend.Controllers
             var stock = await stockService.getStockByID(id);
 
             if (stock == null)
-                return NotFound();
+                return NotFound(new
+                {
+                    status= "Failed",
+                    message="stock does not exit "
+                });
 
             return Ok(stock);
         }
@@ -103,5 +115,14 @@ namespace backend.Controllers
 
 
         }
+   
+    [HttpGet("test-error")]
+public IActionResult TestError()
+{
+    throw new Exception("Something went wrong!");
+}
+   
+   
+   
     }
 }
